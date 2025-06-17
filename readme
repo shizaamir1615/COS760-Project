@@ -1,0 +1,58 @@
+Human vs Machine Text Detector
+(For South African Civic/Government Text in Low-Resource Languages)
+
+This Streamlit app uses an ensemble of two fine-tuned transformer models—AfriBERTa and XLM-RoBERTa—to detect whether 
+a sentence in civic/governmental context is machine-generated or human-written. 
+It supports four South African low-resource languages:
+
+    Xhosa (xho)
+    Tsonga (tso)
+    Tshivenda (ven)
+    Northern Sotho (nso)
+
+Folder Structure
+    project-root/
+    │
+    ├── app.py                   # Streamlit demo interface
+    ├── model_utils.py           # Shared ensemble prediction functions
+    ├── evaluate_model.py        # Evaluation pipeline for metrics and robustness
+    ├── requirements.txt
+    ├── afriberta_dir/           # Fine-tuned AfriBERTa model directory
+    ├── xlmr_dir/                # Fine-tuned XLM-RoBERTa model directory
+    └── final_dataset2.csv       # Cleaned dataset used for evaluation
+
+Each model folder must contain:
+    config.json
+    pytorch_model.bin or model.safetensors
+    tokenizer_config.json, tokenizer.json
+    Other tokenizer files: vocab.txt, special_tokens_map.json, etc.
+
+Installation
+    -Create and activate a virtual environment:
+    -python3 -m venv venv
+    -source venv/bin/activate      # On Windows: venv\Scripts\activate
+
+Install dependencies:
+    -pip install -r requirements.txt
+
+Run the App
+    -streamlit run app.py
+    -Then open your browser to: http://localhost:8501
+
+Features
+     Ensemble predictions from two fine-tuned models
+     LIME explanations for transparent word-level influence
+     Supports 4 low-resource South African languages
+     Custom dark UI theme with improved visuals
+     Offline-ready (models load from local directories)
+     Robust error handling for loading and inference
+
+Evaluation Strategy
+    The evaluate_model.py script performs:
+    Standard Metrics: Accuracy, F1 Score, Precision, Recall
+    Per-Language Evaluation: Reports model performance on each language individually
+    Robustness Check: Measures accuracy/F1 across short (≤15 words), medium (16–30), and long (>30) text
+    Source: Uses final_dataset2.csv with src_text, label, and language fields
+    Run it with:
+    python evaluate_model.py
+
